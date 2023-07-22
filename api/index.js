@@ -32,4 +32,8 @@ async function startApolloServer() {
   }
 }
 
-startApolloServer();
+const apolloServer = startApolloServer();
+
+export default apolloServer;
+
+
