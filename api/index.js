@@ -10,7 +10,19 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { readFile } from 'fs/promises';
 import gql from 'graphql-tag';
 
-const typeDefs = gql( await readFile('./api/locations.graphql', { encoding: 'utf-8' }) );
+
+async function readDataFromFile( filePath ) {
+    try {
+        return await readFile( filePath, { encoding: 'utf8' } );
+    } catch (error) {
+
+        console.log( { error } );
+
+        return '';
+    }
+}
+
+const typeDefs = gql( await readDataFromFile('./locations.graphql') );
 
 const app = express();
 
