@@ -13,7 +13,7 @@ import gql from 'graphql-tag';
 import resolvers from './resolvers.js';
 import LocationsAPI from './datasources/LocationsApi.js';
 
-const typeDefs = gql( await readFile('./locations.graphql', { encoding: 'utf-8' }) );
+const typeDefs = gql( await readFile('./api/locations.graphql', { encoding: 'utf-8' }) );
 
 // Required logic for integrating with Express
 const app = express();

@@ -8,7 +8,7 @@ async function readJSONDataFromFile( filePath ) {
   }
 }
 
-const locations = await readJSONDataFromFile( './locations_data.json' );
+const locations = await readJSONDataFromFile( './api/datasources/locations_data.json' );
 
 class LocationsAPI {
   getAllLocations() {
