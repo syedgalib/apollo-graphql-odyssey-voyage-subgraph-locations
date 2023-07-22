@@ -12,7 +12,25 @@ import gql from 'graphql-tag';
 
 import resolvers from './resolvers.js';
 import LocationsAPI from './datasources/LocationsApi.js';
-const typeDefs = gql( readFileSync( path.resolve( process.cwd(), 'api/locations.graphql' ), { encoding: 'utf-8' }) );
+
+const typeDefs = gql`
+type Query {
+  "The full list of locations presented by the Interplanetary Space Tourism department"
+  locations: [Location!]!
+  "The details of a specific location"
+  location(id: ID!): Location
+}
+
+type Location {
+  id: ID!
+  "The name of the location"
+  name: String!
+  "A short description about the location"
+  description: String!
+  "The location's main photo as a URL"
+  photo: String!
+}
+`;
 
 // Required logic for integrating with Express
 const app = express();
@@ -48,11 +66,6 @@ app.use(
     }),
   }),
 );
-
-
-// Modified server startup
-// await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
-// console.log(`🚀 Server ready at http://localhost:4000/`);
 
 export default app;
 
