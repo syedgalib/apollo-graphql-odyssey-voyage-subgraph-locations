@@ -1,14 +1,5 @@
-import { readFile } from 'fs/promises';
-
-async function readJSONDataFromFile( filePath ) {
-  try {
-    return JSON.parse( await readFile( filePath, { encoding: 'utf8' } ) );
-  } catch (error) {
-    return [];
-  }
-}
-
-const locations = await readJSONDataFromFile( './api/datasources/locations_data.json' );
+import { readFileSync } from 'fs';
+const locations = JSON.parse( readFileSync( './api/datasources/locations_data.json', { encoding: 'utf8' } ) );
 
 class LocationsAPI {
   getAllLocations() {
