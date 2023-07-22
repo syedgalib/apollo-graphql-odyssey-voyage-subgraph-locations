@@ -3,16 +3,17 @@ import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
-const { ApolloServer } = require('@apollo/server');
+import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
-const { readFileSync } = require('fs');
-const gql = require('graphql-tag');
+import { readFile } from 'fs/promises';
+import gql from 'graphql-tag';
 
-const typeDefs = gql(readFileSync('./locations.graphql', { encoding: 'utf-8' }));
-const resolvers = require('../resolvers');
-const LocationsAPI = require('../datasources/LocationsApi');
+import resolvers from './resolvers.js';
+import LocationsAPI from './datasources/LocationsApi.js';
+
+const typeDefs = gql( await readFile('./api/locations.graphql', { encoding: 'utf-8' }) );
 
 // Required logic for integrating with Express
 const app = express();
@@ -50,8 +51,10 @@ app.use(
 );
 
 // Modified server startup
-await new Promise((resolve) => httpServer.listen({ port: 4001 }, resolve));
-console.log(`🚀 Subgraph locations running at ${url}`);
+const port = 4001;
+await new Promise((resolve) => httpServer.listen({ port }, resolve));
+
+console.log( `🚀 Subgraph locations running at http://localhost:${port}` );
 
 export default httpServer;
 
