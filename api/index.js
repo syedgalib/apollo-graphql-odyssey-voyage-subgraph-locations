@@ -1,9 +1,22 @@
 import express from 'express';
-const app = express();
+import http from 'http';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+
+import { readFile } from 'fs/promises';
+import gql from 'graphql-tag';
 
 const typeDefs = gql( await readFile('./api/locations.graphql', { encoding: 'utf-8' }) );
 
-console.log( { typeDefs } );
+const app = express();
+
+const cwd = process.cwd();
+
+console.log( { cwd, typeDefs } );
 
 app.get( '/', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
