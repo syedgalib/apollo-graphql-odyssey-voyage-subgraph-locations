@@ -47,7 +47,7 @@ app.use(
   bodyParser.json({ limit: '50mb' }),
   // expressMiddleware accepts the same arguments:
   // an Apollo Server instance and optional configuration options
-  expressMiddleware(server, {
+  expressMiddleware( server, {
     context: async ({ req }) => ({ 
       dataSources: {
         locationsAPI: new LocationsAPI(),
@@ -57,11 +57,11 @@ app.use(
 );
 
 // Modified server startup
-const port = 4001;
-await new Promise((resolve) => httpServer.listen({ port }, resolve));
+// const port = 4001;
+// await new Promise((resolve) => httpServer.listen({ port }, resolve));
 
-console.log( `🚀 Subgraph locations running at http://localhost:${port}` );
+// console.log( `🚀 Subgraph locations running at http://localhost:${port}` );
 
-export default httpServer;
+export default app;
 
 
