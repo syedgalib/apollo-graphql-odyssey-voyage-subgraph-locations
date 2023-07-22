@@ -5,8 +5,8 @@ const { readFileSync } = require('fs');
 const gql = require('graphql-tag');
 
 const typeDefs = gql(readFileSync('./locations.graphql', { encoding: 'utf-8' }));
-const resolvers = require('./resolvers');
-const LocationsAPI = require('./datasources/LocationsApi');
+const resolvers = require('../resolvers');
+const LocationsAPI = require('../datasources/LocationsApi');
 
 async function startApolloServer() {
   const server = new ApolloServer({ typeDefs, resolvers });
