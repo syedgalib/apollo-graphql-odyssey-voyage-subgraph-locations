@@ -8,32 +8,25 @@ import bodyParser from 'body-parser';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-
 import gql from 'graphql-tag';
 
 import resolvers from './resolvers.js';
 import LocationsAPI from './datasources/LocationsApi.js';
-
-const locationsGraphPath = path.resolve( process.cwd(), 'api/locations.graphql' );
 const typeDefs = gql( readFileSync( path.resolve( process.cwd(), 'api/locations.graphql' ), { encoding: 'utf-8' }) );
-
-
-console.log( { locationsGraphPath, typeDefs } );
-
 
 // Required logic for integrating with Express
 const app = express();
 // Our httpServer handles incoming requests to our Express app.
 // Below, we tell Apollo Server to "drain" this httpServer,
 // enabling our servers to shut down gracefully.
-const httpServer = http.createServer(app);
+const httpServer = http.createServer( app );
 
 // Same ApolloServer initialization as before, plus the drain plugin
 // for our httpServer.
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [ ApolloServerPluginDrainHttpServer({ httpServer }) ],
 });
 // Ensure we wait for our server to start
 await server.start();
@@ -56,11 +49,10 @@ app.use(
   }),
 );
 
-// Modified server startup
-// const port = 4001;
-// await new Promise((resolve) => httpServer.listen({ port }, resolve));
 
-// console.log( `🚀 Subgraph locations running at http://localhost:${port}` );
+// Modified server startup
+// await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
+// console.log(`🚀 Server ready at http://localhost:4000/`);
 
 export default app;
 
