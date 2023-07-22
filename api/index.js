@@ -1,5 +1,5 @@
-import path from 'path';
-import { readFileSync } from 'fs';
+// import path from 'path';
+// import { readFileSync } from 'fs';
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -12,7 +12,6 @@ import gql from 'graphql-tag';
 
 import resolvers from './resolvers.js';
 import LocationsAPI from './datasources/LocationsApi.js';
-
 const typeDefs = gql`
 type Query {
   "The full list of locations presented by the Interplanetary Space Tourism department"
@@ -66,6 +65,10 @@ app.use(
     }),
   }),
 );
+
+app.listen( 4001, () => {
+  console.log("Running on port 4001.");
+});
 
 export default app;
 
