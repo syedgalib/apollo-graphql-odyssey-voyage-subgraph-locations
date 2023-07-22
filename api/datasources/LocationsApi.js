@@ -1,5 +1,6 @@
+import path from 'path';
 import { readFileSync } from 'fs';
-const locations = JSON.parse( readFileSync( './api/datasources/locations_data.json', { encoding: 'utf8' } ) );
+const locations = JSON.parse( readFileSync( path.resolve( process.cwd(), 'api/datasources/locations_data.json' ), { encoding: 'utf8' } ) );
 
 class LocationsAPI {
   getAllLocations() {
