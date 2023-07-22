@@ -7,26 +7,15 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
-import fs from 'fs';
+import { readFile, readFileSync } from 'fs';
+import path from 'path';
 import fsPromises from 'fs/promises';
 import gql from 'graphql-tag';
-
-const fileExists = function( filePath ) {
-    fs.access( filePath, fs.constants.F_OK, (err) => {
-        console.log(`${filePath} ${err ? 'does not exist' : 'exists'}`);
-    });
-}
-
-fileExists( './locations.graphql' );
-fileExists( './api/locations.graphql' );
-
-const cwd = process.cwd();
-console.log( { cwd } );
 
 
 async function readDataFromFile( filePath ) {
     try {
-        return await fsPromises.readFile( filePath, { encoding: 'utf8' } );
+        return readFileSync( filePath, { encoding: 'utf8' } );
     } catch (error) {
 
         console.log( { error } );
@@ -34,6 +23,11 @@ async function readDataFromFile( filePath ) {
         return '';
     }
 }
+
+const filePath = './api/locations.graphql';
+
+const data = await readDataFromFile( filePath );
+console.log( { data } );
 
 // const typeDefs = gql( await readDataFromFile('./locations.graphql') );
 
