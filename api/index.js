@@ -27,7 +27,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [ ApolloServerPluginDrainHttpServer({ httpServer }) ],
-  introspection: true,
 });
 // Ensure we wait for our server to start
 await server.start();
