@@ -1,5 +1,5 @@
-// import path from 'path';
-// import { readFileSync } from 'fs';
+import path from 'path';
+import { readFileSync } from 'fs';
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -12,24 +12,7 @@ import gql from 'graphql-tag';
 
 import resolvers from './resolvers.js';
 import LocationsAPI from './datasources/LocationsApi.js';
-const typeDefs = gql`
-type Query {
-  "The full list of locations presented by the Interplanetary Space Tourism department"
-  locations: [Location!]!
-  "The details of a specific location"
-  location(id: ID!): Location
-}
-
-type Location {
-  id: ID!
-  "The name of the location"
-  name: String!
-  "A short description about the location"
-  description: String!
-  "The location's main photo as a URL"
-  photo: String!
-}
-`;
+const typeDefs = gql( readFileSync( path.resolve( process.cwd(), 'api/locations.graphql' ), { encoding: 'utf-8' }) );
 
 // Required logic for integrating with Express
 const app = express();
@@ -44,7 +27,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [ ApolloServerPluginDrainHttpServer({ httpServer }) ],
-  introspection: false,
+  introspection: true,
 });
 // Ensure we wait for our server to start
 await server.start();
@@ -66,10 +49,6 @@ app.use(
     }),
   }),
 );
-
-// app.listen( 4001, () => {
-//   console.log("Running on port 4001.");
-// });
 
 export default app;
 
